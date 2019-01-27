@@ -105,15 +105,18 @@
 
     <div class="mainRight">
 
+        {% if userCookie._id %}  <!--存在_id，说明有cookie,说明用户登录了-->
 
-        <div class="rightBox" style="display: none;" id="loginedBox">
+        <div class="rightBox" id="loginedBox">
             <div class="title"><span>用户信息</span></div>
-            <p><span class="colDark username">admin</span></p>
+            <p><span class="colDark username">{{userCookie.username}}</span></p>
 
-            <p><span class="colDanger welcomeInfo">你好，你是管理员，<a href="/admin">你可以点击这里进入管理</a></span></p>
+            <p><span class="colDanger welcomeInfo">欢迎光临我的博客！</span></p>
 
-            <p><span class="colDark"><a href="/logout" id="logoutBtn">退出</a></span></p>
+            <p><span class="colDark"><a href="javascript:;" id="logoutBtn">退出</a></span></p>
         </div>
+
+        {% else %}
 
         <div class="rightBox" id="loginBox">
             <div class="title"><span>登录</span></div>
@@ -134,6 +137,7 @@
             <p class="colWarning textCenter"></p>
         </div>
 
+        {% endif %}
 
         <div class="rightBox">
             <div class="title"><span>社区</span></div>

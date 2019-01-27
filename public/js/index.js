@@ -60,18 +60,34 @@ $(function(){
                 loginBox.find(".colWarning").html(data.msg);
 
                 if(!data.code){
-                    setTimeout(function(){
+                    //登录成功之后，不用再通过js控制登录注册等框的显示隐藏了，通过模板文件来动态渲染
+                    /*setTimeout(function(){
                         loginedBox.show();
                         loginBox.hide();
-                        loginedBox.find('.username').html(data.username);
+                        loginedBox.find('.username').html(data.userInfo.username);
                         loginedBox.find('.welcomeInfo').html('欢迎光临我的博客！');
-                    },500)
+                    },500)*/
+                    window.location.reload();
                 }
             },
             error : function(err) {
                 console.log(err)
             }
         });
+    })
+
+    //退出，发送一个ajax请求，告诉服务器清空cookies
+    $('#logoutBtn').on('click',function () {
+        $.ajax({
+            type:'get',
+            url:'/api/user/logout',
+            success:function (data) {
+                console.log(data)
+                if(!data.code){
+                    window.location.reload();
+                }
+            }
+        })
     })
 
 })

@@ -109,31 +109,41 @@ router.post('/user/login',function(req,res,next){
     }
 
     //查询数据库中相同用户名和密码的记录是否存在，如果存在则登录成功
-    User.find({
+    User.find({  //这里用的是find，不是findOne
         username:username,
         password: password
     },function(err,doc){
         if(err){
             console.log(err)
             return;
-        }
-        console.log(doc)
-        if(!doc){  //如果数据库没匹配到(即用户名密码查找失败)，doc返回的是空数组
-            responseData.code = 2;
-            responseData.msg = '用户名或者密码错误';
-            res.json(responseData);
-            return;
-        }
-        if(doc[0].username == username && doc[0].password == password){
+        }else{
+            if(!doc.length){  //如果数据库没匹配到(即用户名密码查找失败)，doc返回的是空数组，Boolean([])返回的是true
+                responseData.code = 2;
+                responseData.msg = '用户名或者密码错误';
+                res.json(responseData);
+                return;
+            }
             responseData.msg = '登录成功';
             responseData.userInfo = {
-                _id : doc._id,
-                username : doc.username
+                _id : doc[0]._id,
+                username : doc[0].username
             }
+            //存cookie  请求的时候存
+            req.cookies.set('userCookie',JSON.stringify({
+                _id : doc[0]._id,
+                username : doc[0].username
+            }));
             res.json(responseData);
             return;
         }
+
     })
+})
+
+//退出接口
+router.get('/user/logout',function (req,res) {
+    req.cookies.set('userCookie',null);
+    res.json(responseData);
 })
 
 module.exports = router;
