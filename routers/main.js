@@ -7,6 +7,9 @@ router.get('/',(req,res,next)=>{
         userCookie : req.userCookie
     });  //由于已经在app.js配置了模板的使用，所以这里无需考虑路径问题了
     //res.send('首页')
+
 })
+
+
 
 module.exports = router

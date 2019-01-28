@@ -128,7 +128,7 @@ router.post('/user/login',function(req,res,next){
                 _id : doc[0]._id,
                 username : doc[0].username
             }
-            //存cookie  请求的时候存
+            //存cookie  登录的时候(请求的时候)存进来
             req.cookies.set('userCookie',JSON.stringify({
                 _id : doc[0]._id,
                 username : doc[0].username
